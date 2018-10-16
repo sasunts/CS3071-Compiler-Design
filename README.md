@@ -1,4 +1,4 @@
-# CS3071---Compiler-Design
+# CS3071 - Compiler Design
 My solutions for the assignments.
 
 #### Assignment 1 Even Numbers
