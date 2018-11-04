@@ -15,3 +15,9 @@ Flex/Bison (or lex/yacc)
 Calculates the inputted roman numerals. First version is lazy work but passed all
 tests. Will change hard coded syntax error detection when I have time to something
 more elegant.
+
+#### Assignment 5 Roman Numerals
+Flex/Bison (or lex/yacc)
+Calculates the inputted roman numerals and converts to integers. Looks at the operand,
+and performs required calculation. Then a function is called to convert the integers back
+to roman numerals.
