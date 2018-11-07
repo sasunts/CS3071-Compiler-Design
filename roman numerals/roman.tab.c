@@ -1442,7 +1442,7 @@ int yyerror(char *s)
 {
   printf("%s\n", s);
   exit(0);
-  return 0;
+
 }
 
 
