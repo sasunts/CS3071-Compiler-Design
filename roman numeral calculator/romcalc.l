@@ -2,16 +2,18 @@
 # include "romcalc.tab.h"
 int yyerror(char *s);
 int yylex();
-int total =0;
-
 %}
 
 %%
-I{4,} { }
-X{4,} { }
-C{4,} { }
-V{2,} { }
-"CMCC" { } /* harded coded this to pass test, lazy effort sorry */
+I{4,} { yyerror("syntax error"); }
+X{4,} { yyerror("syntax error"); }
+C{4,} { yyerror("syntax error"); }
+IVI{1,} { yyerror("syntax error"); }
+IXI{1,} { yyerror("syntax error"); }
+XLX{1,} { yyerror("syntax error"); }
+XCX{1,} { yyerror("syntax error"); }
+CDC{1,} { yyerror("syntax error"); }
+CMC{1,} { yyerror("syntax error"); }
 "IV" { yylval = 4; return NUM;  }
 "IX" { yylval =  9; return NUM; }
 "XL" { yylval = 40; return NUM; }
@@ -33,7 +35,6 @@ V{2,} { }
 "+"						{ return ADD; }
 "-"						{ return SUBTRACT; }
 
-
-\n  {total = 0; return EOL; }
+\n  { return EOL; }
 .	{  }
 %%
