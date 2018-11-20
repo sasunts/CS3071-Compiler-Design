@@ -9,14 +9,10 @@ int yylex();
 %%
 
 
-"print"       {return PRINT;}
-"*"						{ return MUL; }
-"/"						{ return DIV; }
-"+"						{ return ADD; }
-"-"						{ return SUB; }
+"print" {return PRINT;}
 ":="    { return ASN; }
-[0-9]+  { yylval.num = atoi(yytext); return NUM;}
-[a-z]   { yylval.string = yytext[0]; return VAR; }
+[0-9]+  { yylval = atoi(yytext); return NUM;}
+[a-z]   { yylval = yytext[0]; return VAR; }
 
 ";"     { return EOL; }
 [ \t]   { /* ignore white space */ }
