@@ -29,6 +29,7 @@ assignment : variable ASN exp  { updateSymbolVal($1,$3); }
 	;
 
 exp: term                 {$$ = $1;}
+	| MINUS term						{$$ = -$2;}
   | exp PLUS term          {$$ = $1 + $3;}
   | exp MINUS term          {$$ = $1 - $3;}
 	| exp MUL term          {$$ = $1 * $3;}
