@@ -20,24 +20,31 @@ void updateSymbolVal(char symbol, int val);
 %%
 
 calclist: assignment ';'		{}
-	| print exp ';'			{printf("%d\n", $2);}
+	| print exp ';'						{ printf("%d\n", $2); }
 	| calclist assignment ';'	{}
-	| calclist print exp ';'	{printf("%d\n", $3);}
+	| calclist print exp ';'	{ printf("%d\n", $3); }
   ;
 
 assignment : variable ASN exp  { updateSymbolVal($1,$3); }
 	;
 
-exp: term                 {$$ = $1;}
-	| MINUS term						{$$ = -$2;}
-  | exp PLUS term          {$$ = $1 + $3;}
-  | exp MINUS term          {$$ = $1 - $3;}
-	| exp MUL term          {$$ = $1 * $3;}
-	| exp DIV term          {$$ = $1 / $3;}
+exp: term                 { $$ = $1; }
+	| MINUS term						{ $$ = -$2; }
+  | exp PLUS term         { $$ = $1 + $3; }
+  | exp MINUS term        {
+														if($3>0){
+																$$ = $1 - $3;
+															}
+															else{
+																$$ = $1 + $3;
+															}
+													}
+	| exp MUL term          { $$ = $1 * $3; }
+	| exp DIV term          { $$ = $1 / $3; }
   ;
 
-term: number        {$$ = $1;}
-		| variable			{$$ = symbolVal($1);}
+term: number        { $$ = $1; }
+		| variable			{ $$ = symbolVal($1); }
     ;
 
 %%

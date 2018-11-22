@@ -4,6 +4,7 @@ int yyerror (char *s);
 int yylex();
 %}
 %%
+
 "print"			 {return print;}
 [a-z]			   {yylval.id = yytext[0]; return variable;}
 [0-9]+       {yylval.num = atoi(yytext); return number;}

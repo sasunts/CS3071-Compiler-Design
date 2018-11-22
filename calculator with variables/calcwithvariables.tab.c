@@ -1274,13 +1274,13 @@ yyreduce:
   case 10:
 #line 34 "calcwithvariables.y" /* yacc.c:1646  */
     {
-															if((yyvsp[0].num)>0){
+														if((yyvsp[0].num)>0){
 																(yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num);
 															}
 															else{
 																(yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num);
 															}
-														}
+													}
 #line 1285 "calcwithvariables.tab.c" /* yacc.c:1646  */
     break;
 
