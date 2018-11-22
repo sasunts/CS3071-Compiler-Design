@@ -1,20 +1,20 @@
 %{
-# include "calcwithvariables.tab.h"
-#  include <stdio.h>
-#  include <stdlib.h>
-int yyerror(char *s);
+#include "calcwithvariables.tab.h"
+int yyerror (char *s);
 int yylex();
 %}
+%%
+"print"			 {return print;}
+[a-z]			   {yylval.id = yytext[0]; return variable;}
+[0-9]+       {yylval.num = atoi(yytext); return number;}
+[ \t\n]      ;
+":="         {return ASN;}
+";"          {return yytext[0];}
+"+"          {return PLUS;}
+"-"          {return MINUS;}
+"/"          {return DIV;}
+"*"          {return MUL;}
+.            {}
 
 %%
-
-
-"print" {return PRINT;}
-":="    { return ASN; }
-[0-9]+  { yylval = atoi(yytext); return NUM;}
-[a-z]   { yylval = yytext[0]; return VAR; }
-
-";"     { return EOL; }
-[ \t]   { /* ignore white space */ }
-.	      {  }
-%%
+int yywrap (void) {return 1;}

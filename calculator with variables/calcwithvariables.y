@@ -1,55 +1,78 @@
 %{
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-int yyerror(char *s);
+int yyerror (char *s);
 int yylex();
-int yyparse();
-
+#include <stdio.h>
+#include <stdlib.h>
+int symbols[100];
+int symbolVal(char symbol);
+void updateSymbolVal(char symbol, int val);
 %}
 %output "calcwithvariables.tab.c"
 
-%token EOL
-%token VAR ASN PRINT NUM
-
-%left '+' '-'
-%left '*' '/'
-%left '(' ')'
-
+%union {int num; char id;}
 %start calclist
+%token ASN DIV MUL PLUS MINUS
+%token print
+%token <num> number
+%token <id> variable
+%type <num> calclist exp term
+%type <id> assignment
+%%
+
+calclist: assignment ';'		{}
+	| print exp ';'			{printf("%d\n", $2);}
+	| calclist assignment ';'	{}
+	| calclist print exp ';'	{printf("%d\n", $3);}
+  ;
+
+assignment : variable ASN exp  { updateSymbolVal($1,$3); }
+	;
+
+exp: term                 {$$ = $1;}
+  | exp PLUS term          {$$ = $1 + $3;}
+  | exp MINUS term          {$$ = $1 - $3;}
+	| exp MUL term          {$$ = $1 * $3;}
+	| exp DIV term          {$$ = $1 / $3;}
+  ;
+
+term: number        {$$ = $1;}
+		| variable			{$$ = symbolVal($1);}
+    ;
 
 %%
 
-stmt: {}
-  |PRINT expr {printf("%d", $2);}
-  |expr
-  ;
+int computeSymbolIndex(char token)
+{
+	int index = token - 'a' + 26;
+	return index;
+}
 
-expr: expr '+' expr {$$ = $1 + $3;}
-  | expr '-' expr {$$ = $1 - $3;}
-  | expr '*' expr {$$ = $1 * $3;}
-  | expr '/' expr {$$ = $1 / $3;}
-  | NUM {$$ = $1;}
-  | expr ASN expr { }
-  ;
+int symbolVal(char symbol)
+{
+	int value = computeSymbolIndex(symbol);
+	return symbols[value];
+}
 
+void updateSymbolVal(char symbol, int val)
+{
+	int value = computeSymbolIndex(symbol);
+	symbols[value] = val;
+}
 
+int main (void)
+{
+	int i;
+	for(i=0; i<52; i++)
+	{
+		symbols[i] = 0;
+	}
 
-calclist:  {}
-| calclist stmt EOL {  }
-;
-
-%%
+	return yyparse ( );
+}
 
 int yyerror(char *s)
 {
   printf("%s\n", s);
   exit(0);
-}
-
-int
-main()
-{
-  yyparse();
   return 0;
 }

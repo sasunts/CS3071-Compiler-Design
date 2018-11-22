@@ -45,17 +45,29 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    EOL = 258,
-    VAR = 259,
-    ASN = 260,
-    PRINT = 261,
-    NUM = 262
+    ASN = 258,
+    DIV = 259,
+    MUL = 260,
+    PLUS = 261,
+    MINUS = 262,
+    print = 263,
+    number = 264,
+    variable = 265
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 12 "calcwithvariables.y" /* yacc.c:1909  */
+int num; char id;
+
+#line 68 "calcwithvariables.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
